@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'walter-tools'
+  s.name        = 'walter-shared'
   s.version     = '1.0.0.beta1'
   s.date        = '2019-03-15'
   s.summary     = 'A loveable Logger.'
