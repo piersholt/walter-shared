@@ -33,7 +33,8 @@ class Subscriber < MessagingQueue
 
   def self.pi
     # instance.close if instance.socket?
-    instance.address = '192.168.1.106'
+    # instance.address = '192.168.1.150'
+    instance.address = '192.168.1.151'
     subscribe('')
   end
 
