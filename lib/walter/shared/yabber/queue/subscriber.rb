@@ -32,21 +32,19 @@ class Subscriber < MessagingQueue
   end
 
   def self.pi
-    # instance.close if instance.socket?
-    # instance.address = '192.168.1.150'
-    instance.address = '192.168.1.151'
-    subscribe('')
+    instance.address = ADDRESS_PI
+    subscribe(ALL_TOPICS)
   end
 
   def self.local
     # close if socket?
     instance.address = 'localhost'
-    subscribe('')
+    subscribe(ALL_TOPICS)
   end
 
   def self.mbp
-    instance.address = '192.168.1.102'
-    subscribe('')
+    instance.address = ADDRESS_MBP
+    subscribe(ALL_TOPICS)
   end
 
   # @override

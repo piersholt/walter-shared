@@ -15,8 +15,7 @@ class Client < MessagingQueue
   }.freeze
 
   def self.pi
-    # instance.address = '192.168.1.150'
-    instance.address = '192.168.1.151'
+    instance.address = ADDRESS_PI
   end
 
   def self.disconnect

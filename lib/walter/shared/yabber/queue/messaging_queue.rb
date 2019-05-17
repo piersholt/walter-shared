@@ -35,9 +35,24 @@ end
 
 # Comment
 class MessagingQueue
+  module Constants
+    ALL_TOPICS = ''
+  end
+
+  module Defaults
+    ADDRESS_PI = '192.168.1.151'
+    ADDRESS_MBP = '192.168.1.102'
+  end
+end
+
+# Comment
+class MessagingQueue
+  include Defaults
+  include Constants
   include Singleton
   include LogActually::ErrorOutput
   include Errors
+
   attr_writer :role, :protocol, :address, :port
   # attr_accessor :counter
 

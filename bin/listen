@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'rubygems'
+require 'bundler/setup'
+require 'pry-byebug'
+
+# Setup load path for application (makes you realise RubyGems spoils you...)
+def setup_path(dir)
+  load_path = File.expand_path(File.dirname(__FILE__) + "/../#{dir}")
+  $LOAD_PATH.unshift(load_path) unless $LOAD_PATH.include?(load_path)
+rescue StandardError => e
+  puts e
+  e.backtrace.each { |line| puts line }
+  exit
+end
+
+setup_path('lib')
+
+# root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
+
+# if ENV['BUNDLE_GEMFILE']
+#   load_paths = %w[/lib /ext]
+#   load_paths.each do |load_path|
+#     $LOAD_PATH.unshift(root_path + load_path)
+#   end
+# end
+
+begin
+  # require 'log_actually'
+  # require 'helpers/manageable_threads'
+  # require 'yabber/yabber'
+  require 'walter/shared/log_actually'
+  require 'walter/shared/yabber'
+rescue LoadError => e
+  puts 'Dependencies load error!'
+  puts e
+  e.backtrace.each { |line| puts line }
+  exit
+rescue StandardError => e
+  puts 'Dependencies standard error?'
+  puts e
+  e.backtrace.each { |line| puts line }
+  exit
+end
+
+LOGGER = LogActually.is_all_around(:default)
+LOGGER.i
+LogActually.is_all_around(:messaging)
+LogActually.messaging.d
+
+LOGGER.info('bin') { 'Start setting up Subscriber...' }
+
+target = ARGV.shift
+raise ArgumentError, 'unknown target' unless Subscriber.respond_to?(target.to_sym)
+Subscriber.public_send(target.to_sym)
+
+begin
+  LOGGER.info('bin') { 'Start' }
+  loop do
+    message = Subscriber.recv
+    puts Time.now.strftime("%T")
+    puts message
+  end
+rescue StandardError => e
+  LOGGER.error('bin') { 'Dependencies standard error?' }
+  LOGGER.error('bin') { e }
+  e.backtrace.each { |line| LOGGER.error('bin') { line } }
+rescue SignalException
+  Signal.trap(0, proc { puts "Terminating: #{$$}" })
+  return 1
+end
+
+LOGGER.info('bin') { 'Goodbyte!' }
+
+exit
