@@ -40,8 +40,8 @@ class MessagingQueue
   end
 
   module Defaults
-    ADDRESS_PI = '192.168.1.151'
-    ADDRESS_MBP = '192.168.1.102'
+    ADDRESS_PI = 'pi.local'
+    ADDRESS_MBP = 'pmbp.local'
   end
 end
 
