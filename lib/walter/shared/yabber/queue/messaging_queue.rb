@@ -5,15 +5,22 @@ require 'rbczmq'
 # Comment
 class MessagingContext
   include Singleton
-
   # attr_accessor :counter
 
   def self.context
     instance.context
   end
 
+  def self.semaphore
+    instance.semaphore
+  end
+
+  def semaphore
+    @semaphore ||= Mutex.new
+  end
+
   def context
-    Mutex.new.synchronize do
+    semaphore.synchronize do
       @context ||= create_context
     end
   end
@@ -98,9 +105,7 @@ class MessagingQueue
   private
 
   def context
-    Mutex.new.synchronize do
-      @context ||= create_context
-    end
+    @context ||= create_context
   end
 
   def create_context
