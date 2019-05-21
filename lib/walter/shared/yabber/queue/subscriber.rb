@@ -47,6 +47,18 @@ class Subscriber < MessagingQueue
     subscribe(ALL_TOPICS)
   end
 
+  def self.walter
+    # instance.address = ADDRESS_MBP
+    instance.port = PORT_WALTER_SUB
+    subscribe(ALL_TOPICS)
+  end
+
+  def self.wolfgang
+    # instance.address = ADDRESS_MBP
+    instance.port = PORT_WOLFGANG_SUB
+    subscribe(ALL_TOPICS)
+  end
+
   # @override
   def setup(topic = :broadcast)
     super()

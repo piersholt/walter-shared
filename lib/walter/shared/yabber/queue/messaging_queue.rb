@@ -42,6 +42,10 @@ class MessagingQueue
   module Defaults
     ADDRESS_PI = 'pi.local'
     ADDRESS_MBP = 'pmbp.local'
+    PORT_WALTER_PUB = '5556'
+    PORT_WALTER_SUB = '5556'
+    PORT_WOLFGANG_PUB = '5557'
+    PORT_WOLFGANG_SUB = '5557'
   end
 end
 
