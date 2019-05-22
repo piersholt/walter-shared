@@ -38,7 +38,7 @@ class Subscriber < MessagingQueue
 
   def self.local
     # close if socket?
-    instance.address = 'localhost'
+    instance.address = ADDRESS_LOCALHOST
     subscribe(ALL_TOPICS)
   end
 

@@ -53,6 +53,7 @@ class MessagingQueue
     PORT_WALTER_SUB = '5556'
     PORT_WOLFGANG_PUB = '5557'
     PORT_WOLFGANG_SUB = '5557'
+    ADDRESS_LOCALHOST = 'localhost'
   end
 end
 
