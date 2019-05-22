@@ -39,13 +39,13 @@ class Publisher < MessagingQueue
 
   # Publisher.announcement(:walter)
   def self.walter
-    instance.port = PORT_WALTER_PUB
+    instance.port = PORT_WALTER_PUB_SUB
     Publisher.announcement(:walter)
   end
 
   # Publisher.announcement(:wolfgang)
   def self.wolfgang
-    instance.port = PORT_WOLFGANG_PUB
+    instance.port = PORT_WOLFGANG_PUB_SUB
     Publisher.announcement(:wolfgang)
   end
 

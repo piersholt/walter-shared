@@ -49,13 +49,13 @@ class Subscriber < MessagingQueue
 
   def self.walter
     # instance.address = ADDRESS_MBP
-    instance.port = PORT_WALTER_SUB
+    instance.port = PORT_WALTER_PUB_SUB
     subscribe(ALL_TOPICS)
   end
 
   def self.wolfgang
     # instance.address = ADDRESS_MBP
-    instance.port = PORT_WOLFGANG_SUB
+    instance.port = PORT_WOLFGANG_PUB_SUB
     subscribe(ALL_TOPICS)
   end
 
