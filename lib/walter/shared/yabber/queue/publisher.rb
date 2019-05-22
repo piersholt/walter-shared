@@ -58,10 +58,10 @@ class Publisher < MessagingQueue
 
   # @pverride
   def open_socket
-    LogActually.messaging.debug(self.class) { "Open Socket." }
-    LogActually.messaging.debug(self.class) { "Socket: #{Thread.current}" }
-    LogActually.messaging.debug(self.class) { "Role: #{role}" }
-    LogActually.messaging.debug(self.class) { "URI: #{uri}" }
+    logger.debug(self.class) { "Open Socket." }
+    logger.debug(self.class) { "Socket: #{Thread.current}" }
+    logger.debug(self.class) { "Role: #{role}" }
+    logger.debug(self.class) { "URI: #{uri}" }
     context
     worker
     context.bind(role, uri)

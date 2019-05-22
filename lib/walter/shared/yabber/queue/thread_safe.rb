@@ -52,7 +52,7 @@ class MessagingQueue
     end
 
     def create_queue
-      LogActually.messaging.debug(self.class) { 'Create Queue' }
+      logger.debug(self.class) { 'Create Queue' }
       new_queue = SizedQueue.new(QUEUE_SIZE)
       create_worker(new_queue)
       new_queue
@@ -62,7 +62,7 @@ class MessagingQueue
 
     def create_worker(existing_queue = nil)
       return false if fuck_off?
-      LogActually.messaging.debug(self.class) { 'Create Worker' }
+      logger.debug(self.class) { 'Create Worker' }
       q = existing_queue ? existing_queue : queue
       @worker = create_worker_thread(q)
       add_thread(@worker)
@@ -72,7 +72,7 @@ class MessagingQueue
     def create_worker_thread(q)
       Mutex.new.synchronize do
         Thread.new(q) do |thread_queue|
-          LogActually.messaging.debug(self.class) { "Worker: #{Thread.current}" }
+          logger.debug(self.class) { "Worker: #{Thread.current}" }
           Thread.current[:name] = 'Publisher Worker'
           begin
             logger.debug(self.class) { 'Worker starting...' }
@@ -107,15 +107,15 @@ class MessagingQueue
     end
 
     def forward_to_zeromq(topic, payload)
-      LogActually.messaging.debug(self.class) { "Worker: #{Thread.current}" }
+      logger.debug(self.class) { "Worker: #{Thread.current}" }
       topic = sanitize(topic)
       payload = sanitize(payload)
-      # LogActually.messaging.debug(counter)
+      # logger.debug(counter)
 
       result_topic = sendm(topic)
       result_payload = send(payload)
-      LogActually.messaging.debug(topic)
-      LogActually.messaging.debug(payload)
+      logger.debug(topic)
+      logger.debug(payload)
       raise StandardError, 'Failed send?' unless result_topic && result_payload
       # self.counter = counter + 1
     end
