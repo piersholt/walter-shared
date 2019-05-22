@@ -52,7 +52,10 @@ class MessagingQueue
     ADDRESS_LOCALHOST = 'localhost'
 
     PORT_WALTER_PUB_SUB = '5556'
+    PORT_WALTER_CLIENT_SERVER = '5557'
+
     PORT_WOLFGANG_PUB_SUB = '5558'
+    PORT_WOLFGANG_CLIENT_SERVER = '5559'
   end
 end
 

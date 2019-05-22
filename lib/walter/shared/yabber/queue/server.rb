@@ -19,6 +19,24 @@ class Server < MessagingQueue
     instance.start
   end
 
+  def self.walter
+    instance.port = PORT_WALTER_CLIENT_SERVER
+  end
+
+  def self.wolfgang
+    instance.port = PORT_WOLFGANG_CLIENT_SERVER
+  end
+
+  def self.walter!
+    walter
+    start
+  end
+
+  def self.wolfgang!
+    wolfgang
+    start
+  end
+
   def deserialize(serialized_object)
     command = Messaging::Serialized.new(serialized_object).parse
     logger.info(self.class) { "Deserialized: #{command}" }

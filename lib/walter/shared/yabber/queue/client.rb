@@ -18,6 +18,14 @@ class Client < MessagingQueue
     instance.address = ADDRESS_PI
   end
 
+  def self.walter
+    instance.port = PORT_WALTER_CLIENT_SERVER
+  end
+
+  def self.wolfgang
+    instance.port = PORT_WOLFGANG_CLIENT_SERVER
+  end
+
   def self.disconnect
     instance.worker.raise(GoHomeNow, 'Disconnect called!')
   end
