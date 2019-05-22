@@ -24,6 +24,14 @@ module Messaging
         so?(TARGET, PLAYER, {}, callback)
       end
 
+      def volume_up!
+        thy_will_be_done!(TARGET, VOLUME_UP)
+      end
+
+      def volume_down!
+        thy_will_be_done!(TARGET, VOLUME_DOWN)
+      end
+
       # PLAYER
 
       def play!

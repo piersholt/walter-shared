@@ -85,6 +85,8 @@ module Messaging
       SCAN_FORWARD_STOP = :scan_forward_stop
       SCAN_BACKWARD_START = :scan_backward_start
       SCAN_BACKWARD_STOP = :scan_backward_stop
+      VOLUME_UP = :volume_up
+      VOLUME_DOWN = :volume_down
       EVERYONE = :everyone
 
       ACTIONS = {
@@ -98,7 +100,8 @@ module Messaging
           PLAY, PAUSE, STOP,
           SEEK_NEXT, SEEK_PREVIOUS,
           SCAN_FORWARD_START, SCAN_FORWARD_STOP,
-          SCAN_BACKWARD_START, SCAN_BACKWARD_STOP
+          SCAN_BACKWARD_START, SCAN_BACKWARD_STOP,
+          VOLUME_UP, VOLUME_DOWN
         ]
       }.freeze
     end
