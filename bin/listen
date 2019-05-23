@@ -2,6 +2,7 @@
 
 # frozen_string_literal: true
 
+require 'optparse'
 require 'rubygems'
 require 'bundler/setup'
 require 'pry-byebug'
@@ -18,19 +19,7 @@ end
 
 setup_path('lib')
 
-# root_path = File.dirname(ENV['BUNDLE_GEMFILE'])
-
-# if ENV['BUNDLE_GEMFILE']
-#   load_paths = %w[/lib /ext]
-#   load_paths.each do |load_path|
-#     $LOAD_PATH.unshift(root_path + load_path)
-#   end
-# end
-
 begin
-  # require 'log_actually'
-  # require 'helpers/manageable_threads'
-  # require 'yabber/yabber'
   require 'walter/shared/log_actually'
   require 'walter/shared/yabber'
 rescue LoadError => e
@@ -50,14 +39,27 @@ LOGGER.i
 LogActually.is_all_around(:messaging)
 LogActually.messaging.d
 
-LOGGER.info('bin') { 'Start setting up Subscriber...' }
+options = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: listen -h zeromq.local -p 5555'
+  opts.on('-p PORT', 'Publisher PORT') do |p|
+    options[:port] = p
+  end
 
-target = ARGV.shift
-raise ArgumentError, 'unknown target' unless Subscriber.respond_to?(target.to_sym)
-Subscriber.public_send(target.to_sym)
+  opts.on('-h HOST', 'Publisher HOST') do |h|
+    options[:host] = h
+  end
+end.parse!
+
+options = options.map do |k, v|
+  [k.to_sym, v]
+end.to_h
+
+LOGGER.info('bin') { 'Start setting up Subscriber...' }
 
 begin
   LOGGER.info('bin') { 'Start' }
+  Subscriber.params(options)
   loop do
     message = Subscriber.recv
     puts Time.now.strftime("%T")
