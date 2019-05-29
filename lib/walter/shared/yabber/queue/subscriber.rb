@@ -33,29 +33,38 @@ class Subscriber < MessagingQueue
 
   def self.pi
     instance.address = ADDRESS_PI
-    subscribe(ALL_TOPICS)
+    # subscribe(ALL_TOPICS)
+    self
   end
 
   def self.local
     # close if socket?
     instance.address = ADDRESS_LOCALHOST
-    subscribe(ALL_TOPICS)
+    # subscribe(ALL_TOPICS)
+    self
   end
 
   def self.mbp
     instance.address = ADDRESS_MBP
-    subscribe(ALL_TOPICS)
+    # subscribe(ALL_TOPICS)
+    self
   end
 
   def self.walter
     # instance.address = ADDRESS_MBP
     instance.port = PORT_WALTER_PUB_SUB
-    subscribe(ALL_TOPICS)
+    # subscribe(ALL_TOPICS)
+    self
   end
 
   def self.wolfgang
     # instance.address = ADDRESS_MBP
     instance.port = PORT_WOLFGANG_PUB_SUB
+    # subscribe(ALL_TOPICS)
+    self
+  end
+
+  def self.go!
     subscribe(ALL_TOPICS)
   end
 

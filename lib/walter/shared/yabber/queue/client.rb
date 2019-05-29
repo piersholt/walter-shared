@@ -16,14 +16,17 @@ class Client < MessagingQueue
 
   def self.pi
     instance.address = ADDRESS_PI
+    self
   end
 
   def self.walter
     instance.port = PORT_WALTER_CLIENT_SERVER
+    self
   end
 
   def self.wolfgang
     instance.port = PORT_WOLFGANG_CLIENT_SERVER
+    self
   end
 
   def self.disconnect
