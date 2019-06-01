@@ -15,6 +15,14 @@ class Server < MessagingQueue
     port: '5557'
   }.freeze
 
+  def self.recv
+    instance.recv
+  rescue ZMQ::Socket => e
+    LogActually.messaging.error(self) { "#{e}" }
+    e.backtrace.each { |l| LogActually.messaging.error(l) }
+    # binding.pry
+  end
+
   def self.start
     instance.start
   end
@@ -28,54 +36,56 @@ class Server < MessagingQueue
   end
 
   def self.walter!
+    return false
     walter
-    start
+    # start
   end
 
   def self.wolfgang!
+    return false
     wolfgang
-    start
+    # start
   end
 
-  def deserialize(serialized_object)
-    command = Messaging::Serialized.new(serialized_object).parse
-    logger.info(self.class) { "Deserialized: #{command}" }
-    logger.info(self.class) { "name: #{command.name} (#{command.name.class})" }
-    command
-  end
-
-  def do_things(i)
-    logger.debug(self.class) { "#{i}. Wait" }
-    serialized_object = recv
-    command = deserialize(serialized_object)
-    logger.debug(self.class) { "recv => #{command}" }
-    CommandListener.instance.delegate(command)
-    # result = send('pong')
-    # logger.debug(self.class) { "send('pong') => #{result}" }
-  rescue IfYouWantSomethingDone
-    logger.warn(self.class) { "Chain did not handle! (#{command})" }
-  rescue StandardError => e
-    logger.error(self.class) { e }
-    e.backtrace.each { |line| logger.error(self.class) { line } }
-  end
-
-  def start
-    logger.debug(self.class) { "#test" }
-    @thread = Thread.new do
-      begin
-        i = 0
-        logger.debug(self.class) { "enter loop..." }
-        loop do
-          do_things(i)
-          i += 1
-        end
-      rescue StandardError => e
-        logger.fatal(self.class) { e }
-        e.backtrace { |line| logger.fatal(self.class) { line } }
-      end
-      logger.warn(self.class) { 'Test thread ending?' }
-    end
-  end
+  # def deserialize(serialized_object)
+  #   command = Messaging::Serialized.new(serialized_object).parse
+  #   logger.info(self.class) { "Deserialized: #{command}" }
+  #   logger.info(self.class) { "name: #{command.name} (#{command.name.class})" }
+  #   command
+  # end
+  #
+  # def do_things(i)
+  #   logger.debug(self.class) { "#{i}. Wait" }
+  #   serialized_object = recv
+  #   command = deserialize(serialized_object)
+  #   logger.debug(self.class) { "recv => #{command}" }
+  #   CommandListener.instance.delegate(command)
+  #   # result = send('pong')
+  #   # logger.debug(self.class) { "send('pong') => #{result}" }
+  # rescue IfYouWantSomethingDone
+  #   logger.warn(self.class) { "Chain did not handle! (#{command})" }
+  # rescue StandardError => e
+  #   logger.error(self.class) { e }
+  #   e.backtrace.each { |line| logger.error(self.class) { line } }
+  # end
+  #
+  # def start
+  #   logger.debug(self.class) { "#test" }
+  #   @thread = Thread.new do
+  #     begin
+  #       i = 0
+  #       logger.debug(self.class) { "enter loop..." }
+  #       loop do
+  #         do_things(i)
+  #         i += 1
+  #       end
+  #     rescue StandardError => e
+  #       logger.fatal(self.class) { e }
+  #       e.backtrace { |line| logger.fatal(self.class) { line } }
+  #     end
+  #     logger.warn(self.class) { 'Test thread ending?' }
+  #   end
+  # end
 
   private
 
