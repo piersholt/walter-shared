@@ -28,6 +28,7 @@ require_relative 'yabber/message/base_message'
 require_relative 'yabber/message/action'
 require_relative 'yabber/message/notification'
 require_relative 'yabber/message/request'
+require_relative 'yabber/message/reply'
 
 require_relative 'yabber/klasses'
 require_relative 'yabber/serialization'

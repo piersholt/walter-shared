@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'walter-shared'
-  s.version     = '1.0.1'
+  s.version     = '1.0.2'
   s.date        = '2019-03-15'
   s.summary     = 'A loveable Logger.'
   s.description = 'A micro logging library that extends Ruby Logger.'

@@ -2,17 +2,17 @@
 
 module Messaging
   # Comment
-  class Request < BaseMessage
+  class Reply < BaseMessage
     attr_accessor :name, :properties
 
     def initialize(topic:, name: nil, node: :undefined, properties: {})
-      super(type: REQUEST, topic: topic, node: node)
+      super(type: REPLY, topic: topic, node: node)
       @name = name if name
       @properties = properties if properties
     end
 
     def hashified
-      { request: { name: name, properties: properties } }
+      { reply: { name: name, properties: properties } }
     end
 
     def to_h
