@@ -7,6 +7,7 @@ module Messaging
 
     def validate_object(object)
       validate_hash(object)
+      node?(object)
       type?(object)
       topic?(object)
       version?(object)
@@ -30,6 +31,10 @@ module Messaging
 
     def type?(object)
       object.key?(:type)
+    end
+
+    def node?(object)
+      object.key?(:node)
     end
   end
 end

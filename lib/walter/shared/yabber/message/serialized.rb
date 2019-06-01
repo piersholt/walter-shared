@@ -10,6 +10,10 @@ module Messaging
       valid?
     end
 
+    def node
+      @deserialized_object[:node]
+    end
+
     def type
       @deserialized_object[:type]
     end
@@ -33,10 +37,11 @@ module Messaging
     end
 
     def parse
+      LogActually.messaging.debug(self.class) { "node #{node}" }
       LogActually.messaging.debug(self.class) { "topic #{topic}" }
       LogActually.messaging.debug(self.class) { "name #{name}" }
       LogActually.messaging.debug(self.class) { "properties #{properties}" }
-      klass.new(topic: topic, name: name, properties: properties)
+      klass.new(node: node, topic: topic, name: name, properties: properties)
     end
 
     def klass

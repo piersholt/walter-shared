@@ -23,7 +23,7 @@ class MessagingQueue
     end
 
     def announce(announcer)
-      n = Messaging::Notification.new(topic: announcer, name: :announcement)
+      n = Messaging::Notification.new(node: announcer, topic: announcer, name: :announcement)
       LogActually.messaging.debug(self.class) { "Publisher Ready Send." }
       Publisher.send!(n)
     end

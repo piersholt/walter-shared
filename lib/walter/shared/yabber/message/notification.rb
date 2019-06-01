@@ -5,8 +5,8 @@ module Messaging
   class Notification < BaseMessage
     attr_accessor :name, :properties
 
-    def initialize(topic:, name: nil, properties: {})
-      super(type: NOTIFICATION, topic: topic)
+    def initialize(topic:, name: nil, node: nil, properties: {})
+      super(type: NOTIFICATION, topic: topic, node: node)
       @name = name if name
       @properties = properties if properties
     end

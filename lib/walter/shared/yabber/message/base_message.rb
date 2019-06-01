@@ -7,16 +7,17 @@ module Messaging
     include Validation
     include Defaults
 
-    attr_reader :version, :type
+    attr_reader :version, :type, :node
     attr_accessor :id, :session, :topic
 
-    def initialize(version: VERSION, topic:, type:, session: SESSION_ID, id: MESSAGE_ID)
+    def initialize(version: VERSION, topic:, type:, session: SESSION_ID, id: MESSAGE_ID, node: :undefined)
       validate_arguments(version: version, topic: topic, type: type)
       @id = id
       @session = session
       @version = version
       @topic = topic
       @type = type
+      @node = node
     end
 
     def to_h
@@ -24,7 +25,8 @@ module Messaging
         session: session,
         version: version,
         topic: topic,
-        type: type}
+        type: type,
+        node: node }
     end
 
     def to_json

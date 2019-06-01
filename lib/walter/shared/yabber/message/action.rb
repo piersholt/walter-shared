@@ -6,8 +6,8 @@ module Messaging
   class Action < BaseMessage
     attr_accessor :name, :properties
 
-    def initialize(topic:, name: nil, properties: {})
-      super(type: ACTION, topic: topic)
+    def initialize(topic:, name: nil, properties: {}, node: nil)
+      super(type: ACTION, topic: topic, node: node)
       @name = name if name
       @properties = properties if properties
     end

@@ -9,8 +9,8 @@ module Messaging
     include Manager
     include Controller
 
-    def thy_will_be_done!(command_topic, command_name, properties = {})
-      action = Messaging::Action.new(topic: command_topic, name: command_name, properties: properties)
+    def thy_will_be_done!(command_topic, command_name, node = :undefined, properties = {})
+      action = Messaging::Action.new(node: node, topic: command_topic, name: command_name, properties: properties)
       fuckin_send_it_lads!(action)
     end
 

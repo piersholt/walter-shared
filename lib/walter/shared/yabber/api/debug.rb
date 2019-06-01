@@ -6,8 +6,8 @@ module Messaging
     module Debug
       include Constants
 
-      def hello
-        thy_will_be_done!(DEBUG, HELLO)
+      def hello(node = :undefined)
+        thy_will_be_done!(DEBUG, HELLO, node)
       end
 
       def ping!(callback)
