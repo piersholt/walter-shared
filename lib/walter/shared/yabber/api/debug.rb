@@ -13,6 +13,11 @@ module Messaging
       def ping!(callback)
         so?(WOLFGANG, PING, {}, callback)
       end
+
+      # Publish
+      def announce(service)
+        thy_will_be_done(service, ANNOUNCE, :wolfgang)
+      end
     end
   end
 end

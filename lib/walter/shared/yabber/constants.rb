@@ -16,6 +16,7 @@ module Messaging
     module Topics
       DEBUG = :debug
       CONTROL = DEBUG
+      NODE = DEBUG
 
       WILHELM = :wilhelm
       WOLFGANG = :wolfgang
@@ -39,6 +40,8 @@ module Messaging
     # Notification Types
     module Notifications
       include Topics
+      ANNOUNCE = :announce
+
       # Device
       CONNECTING = :connecting
       CONNECTED = :connected
