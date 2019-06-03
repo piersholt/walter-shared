@@ -16,7 +16,7 @@ module Messaging
 
       # Publish
       def announce(service)
-        thy_will_be_done(service, ANNOUNCE, :wolfgang)
+        thy_will_be_done!(service, ANNOUNCE, :wolfgang)
       end
     end
   end
