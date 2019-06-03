@@ -14,6 +14,11 @@ module Messaging
       fuckin_send_it_lads!(action)
     end
 
+    def just_lettin_ya_know!(command_topic, command_name, node = :undefined, properties = {})
+      action = Messaging::Notification.new(node: node, topic: command_topic, name: command_name, properties: properties)
+      fuckin_send_it_lads!(action)
+    end
+
     def fuckin_send_it_lads!(action)
       LogActually.messaging.debug(self.class) { "sending: #{action}"}
       Publisher.send!(action)
