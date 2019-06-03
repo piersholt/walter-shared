@@ -1,5 +1,6 @@
 class MessagingQueue
   module Announce
+    include Messaging::Constants
     include ManageableThreads
     def announcement(announcer)
       # logger.debug('Announce') { "Spawn Thread" }
@@ -23,7 +24,7 @@ class MessagingQueue
     end
 
     def announce(announcer)
-      n = Messaging::Notification.new(node: announcer, topic: announcer, name: :announcement)
+      n = Messaging::Notification.new(node: announcer, topic: CONTROL, name: :announcement)
       LogActually.messaging.debug(self.class) { "Publisher Ready Send." }
       Publisher.send!(n)
     end

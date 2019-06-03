@@ -15,6 +15,7 @@ module Messaging
     # Message Topics/Channels
     module Topics
       DEBUG = :debug
+      CONTROL = DEBUG
 
       WILHELM = :wilhelm
       WOLFGANG = :wolfgang
