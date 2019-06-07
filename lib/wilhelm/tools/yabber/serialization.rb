@@ -22,8 +22,8 @@ module Messaging
       end
     rescue TypeError => e
       LogActually.messaging.error(self.class) { e }
-      LogActually.messaging.error(self.class) { "object #{object}" }
-      LogActually.messaging.error(self.class) { "format #{format}" }
+      LogActually.messaging.error(self.class) { "object: #{object}" }
+      LogActually.messaging.error(self.class) { "format: #{format}" }
     end
   end
 end

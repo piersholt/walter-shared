@@ -92,6 +92,14 @@ class MessagingQueue
   #   instance.disconnect
   # end
 
+  def self.print_configuration
+    instance.print_configuration
+  end
+
+  def print_configuration
+    logger.debug(self.class.name) { "Role: #{role}: #{uri}" }
+  end
+
   def sanitize(string)
     string.to_s
   end
@@ -99,6 +107,14 @@ class MessagingQueue
   def self.setup
     instance.setup
     instance
+  end
+
+  def self.node
+    instance.node
+  end
+
+  def node
+    @node ||= :undefined
   end
 
   # def setup

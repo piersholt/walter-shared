@@ -3,6 +3,7 @@ class MessagingQueue
     include Messaging::Constants
     include ManageableThreads
     def announcement(announcer)
+      @node = announcer
       # logger.debug('Announce') { "Spawn Thread" }
       @announce = Thread.new(announcer) do |announcer|
         # logger.debug('Announce') { "Thead new" }

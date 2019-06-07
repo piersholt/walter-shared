@@ -23,6 +23,7 @@ require_relative 'yabber/constants'
 require_relative 'yabber/defaults'
 require_relative 'yabber/validation'
 require_relative 'yabber/object_validation'
+require_relative 'yabber/printable'
 
 require_relative 'yabber/message/base_message'
 require_relative 'yabber/message/action'

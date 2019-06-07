@@ -3,6 +3,20 @@ class MessagingQueue
     include ManageableThreads
     QUEUE_SIZE = 32
 
+    def self.semaphore
+      instance.semaphore
+    end
+
+    def semaphore
+      @semaphore ||= Mutex.new
+    end
+
+    # def context
+      # semaphore.synchronize do
+        # @context ||= create_context
+      # end
+    # end
+
     def queue_message(message)
       logger.debug('ThreadSafe#queue_message') { "Queue Message" }
       logger.debug('ThreadSafe#queue_message') { "Queued Message: #{message}" }
@@ -21,7 +35,7 @@ class MessagingQueue
     end
 
     def worker
-      Mutex.new.synchronize do
+      semaphore.synchronize do
         @worker ||= create_worker
       end
     end
@@ -70,7 +84,8 @@ class MessagingQueue
     end
 
     def create_worker_thread(q)
-      Mutex.new.synchronize do
+      # TODO: Idiot...
+      # Mutex.new.synchronize do
         Thread.new(q) do |thread_queue|
           logger.debug(self.class) { "Worker: #{Thread.current}" }
           Thread.current[:name] = 'Publisher Worker'
@@ -85,7 +100,7 @@ class MessagingQueue
             end
           end
         end
-      end
+      # end
     end
 
     def pop(i, thread_queue)

@@ -16,16 +16,25 @@ class Client < MessagingQueue
 
   def self.pi
     instance.address = ADDRESS_PI
+    print_configuration
+    self
+  end
+
+  def self.mbp
+    instance.address = ADDRESS_MBP
+    print_configuration
     self
   end
 
   def self.walter
     instance.port = PORT_WALTER_CLIENT_SERVER
+    print_configuration
     self
   end
 
   def self.wolfgang
     instance.port = PORT_WOLFGANG_CLIENT_SERVER
+    print_configuration
     self
   end
 
@@ -94,6 +103,7 @@ class Client < MessagingQueue
   end
 
   def deserialize(serialized_object)
+    logger.debug(self.class) { "#deserialize(#{serialized_object})" }
     command = Messaging::Serialized.new(serialized_object).parse
     logger.debug(self.class) { "Deserialized: #{command}" }
     logger.debug(self.class) { "name: #{command.name} (#{command.name.class})" }

@@ -23,29 +23,31 @@ class Server < MessagingQueue
     # binding.pry
   end
 
-  def self.start
-    instance.start
-  end
+  # def self.start
+  #   instance.start
+  # end
 
   def self.walter
     instance.port = PORT_WALTER_CLIENT_SERVER
+    self
   end
 
   def self.wolfgang
     instance.port = PORT_WOLFGANG_CLIENT_SERVER
+    self
   end
 
-  def self.walter!
-    return false
-    walter
-    # start
-  end
-
-  def self.wolfgang!
-    return false
-    wolfgang
-    # start
-  end
+  # def self.walter!
+  #   return false
+  #   walter
+  #   # start
+  # end
+  #
+  # def self.wolfgang!
+  #   return false
+  #   wolfgang
+  #   # start
+  # end
 
   # def deserialize(serialized_object)
   #   command = Messaging::Serialized.new(serialized_object).parse

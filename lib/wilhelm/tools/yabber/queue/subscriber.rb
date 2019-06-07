@@ -34,6 +34,7 @@ class Subscriber < MessagingQueue
   def self.pi
     instance.address = ADDRESS_PI
     # subscribe(ALL_TOPICS)
+    print_configuration
     self
   end
 
@@ -41,12 +42,14 @@ class Subscriber < MessagingQueue
     # close if socket?
     instance.address = ADDRESS_LOCALHOST
     # subscribe(ALL_TOPICS)
+    print_configuration
     self
   end
 
   def self.mbp
     instance.address = ADDRESS_MBP
     # subscribe(ALL_TOPICS)
+    print_configuration
     self
   end
 
@@ -54,6 +57,7 @@ class Subscriber < MessagingQueue
     # instance.address = ADDRESS_MBP
     instance.port = PORT_WALTER_PUB_SUB
     # subscribe(ALL_TOPICS)
+    print_configuration
     self
   end
 
@@ -61,6 +65,7 @@ class Subscriber < MessagingQueue
     # instance.address = ADDRESS_MBP
     instance.port = PORT_WOLFGANG_PUB_SUB
     # subscribe(ALL_TOPICS)
+    print_configuration
     self
   end
 
@@ -90,8 +95,8 @@ class Subscriber < MessagingQueue
 
   # @override
   def open_socket
-    LogActually.messaging.info(self.class) { "Open Socket." }
-    LogActually.messaging.debug(self.class) { "Open Socket: #{Thread.current}" }
+    LogActually.messaging.info(self.class) { 'Open Socket.' }
+    LogActually.messaging.debug(self.class) { "Socket: #{Thread.current}" }
     LogActually.messaging.debug(self.class) { "Role: #{role}" }
     LogActually.messaging.debug(self.class) { "URI: #{uri}" }
     context.connect(role, uri)
