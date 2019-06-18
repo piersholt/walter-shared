@@ -58,7 +58,7 @@ module Printable
   # end
 
   def columns
-    { index: 7, timestamp: 15, topic: 15, node: 15, type: 20, name: 30, properties: 50 }
+    { index: 7, timestamp: 15, topic: 15, node: 15, type: 20, name: 30, properties: 100 }
   end
 
   def column_count
