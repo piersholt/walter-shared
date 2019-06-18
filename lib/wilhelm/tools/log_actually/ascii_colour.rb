@@ -14,9 +14,14 @@ class LogActually
       "\e[#{RESET}m"
     end
 
-    def gray
+    alias reset clear
+    alias fuck_off clear
+
+    def grey
       "\e[#{LIGHT_GRAY}m"
     end
+
+    alias gray grey
 
     def green
       "\e[#{GREEN}m"
