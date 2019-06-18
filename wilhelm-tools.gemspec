@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.email       = 'piersholt@gmail.com'
   s.homepage    = 'http://www.piersholt.com'
   s.authors     = ['Piers Holt']
-  s.license     = 'AGPL-3.0'
+  s.license     = 'MIT'
   s.post_install_message = 'Beause log actually..., is all around. ❤️'
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '2.4.0'
