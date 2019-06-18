@@ -14,28 +14,10 @@ class Client < MessagingQueue
     port: '5557'
   }.freeze
 
-  def self.pi
-    instance.address = ADDRESS_PI
-    print_configuration
-    self
-  end
-
-  def self.mbp
-    instance.address = ADDRESS_MBP
-    print_configuration
-    self
-  end
-
-  def self.walter
-    instance.port = PORT_WALTER_CLIENT_SERVER
-    print_configuration
-    self
-  end
-
-  def self.wolfgang
-    instance.port = PORT_WOLFGANG_CLIENT_SERVER
-    print_configuration
-    self
+  def self.params(port: PORT_WOLFGANG_PUB_SUB, host: ADDRESS_PI)
+    instance.address = host
+    instance.port = port
+    # subscribe(ALL_TOPICS)
   end
 
   def self.disconnect

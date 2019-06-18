@@ -37,16 +37,9 @@ class Publisher < MessagingQueue
     instance.destroy
   end
 
-  # Publisher.announcement(:walter)
-  def self.walter
-    instance.port = PORT_WALTER_PUB_SUB
-    Publisher.announcement(:walter)
-  end
-
-  # Publisher.announcement(:wolfgang)
-  def self.wolfgang
-    instance.port = PORT_WOLFGANG_PUB_SUB
-    Publisher.announcement(:wolfgang)
+  def self.params(port: PORT_WOLFGANG_PUB_SUB, host: ADDRESS_PI)
+    instance.address = host
+    instance.port = port
   end
 
   private
