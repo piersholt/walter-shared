@@ -27,14 +27,9 @@ class Server < MessagingQueue
   #   instance.start
   # end
 
-  def self.walter
-    instance.port = PORT_WALTER_CLIENT_SERVER
-    self
-  end
-
-  def self.wolfgang
-    instance.port = PORT_WOLFGANG_CLIENT_SERVER
-    self
+  def self.params(port: PORT_WOLFGANG_CLIENT_SERVER, host: ADDRESS_LOCALHOST)
+    instance.address = host
+    instance.port = port
   end
 
   # def self.walter!
