@@ -66,7 +66,7 @@ end.to_h
 #                                    RUN                                      #
 # *************************************************************************** #
 
-LOGGER.info('bin') { 'Start setting up Subscriber...' }
+LOGGER.info('bin') { 'Start setting up Yabber::Subscriber...' }
 
 begin
   LOGGER.info('bin') { 'Start' }
@@ -75,13 +75,13 @@ begin
 
   @thread = Thread.new(messages) do |messages|
     begin
-      Subscriber.params(options)
+      Yabber::Subscriber.params(options)
       i = 0
       loop do
-        message = Subscriber.recv
+        message = Yabber::Subscriber.recv
         # puts Time.now.strftime("%T")
         # puts message.class
-        deserialzed_object = Messaging::Serialized.new(message).parse
+        deserialzed_object = Yabber::Serialized.new(message).parse
         # puts deserialzed_object
         messages << { index: i, timestamp: Time.now.strftime("%T"), message: deserialzed_object}
         header if i.zero?

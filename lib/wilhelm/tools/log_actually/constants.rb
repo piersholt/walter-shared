@@ -1,26 +1,35 @@
 # frozen_string_literal: true
 
 class LogActually
+  # LogActually Constants
   module Constants
-    RESET = '0'.freeze
-    LIGHT_GRAY = '37'.freeze
-    GREEN = '32'.freeze
-    YELLOW = '33'.freeze
-    RED = '31'.freeze
-    MAGENTA = '35'.freeze
+    RESET      = '0'
+    LIGHT_GRAY = '37'
+    GREEN      = '32'
+    YELLOW     = '33'
+    RED        = '31'
+    MAGENTA    = '35'
 
     DEFAULT_LEVEL = Logger::INFO
 
+    LEVEL_DEBUG = 'DEBUG'
+    LEVEL_INFO = 'INFO'
+    LEVEL_WARN = 'WARN'
+    LEVEL_ERROR = 'ERROR'
+    LEVEL_FATAL = 'FATAL'
+    LEVEL_UNKNOWN = 'UNKNOWN'
+    LEVEL_ANY = 'ANY'
+
     SEVERITY_TO_COLOUR_MAP = {
-      'DEBUG' => :gray,
-      'INFO' => :green,
-      'WARN' => :yellow,
-      'ERROR' => :red,
-      'FATAL' => :red,
-      'UNKNOWN' => :magenta,
-      'ANY' => :magenta
+      LEVEL_DEBUG => :gray,
+      LEVEL_INFO => :green,
+      LEVEL_WARN => :yellow,
+      LEVEL_ERROR => :red,
+      LEVEL_FATAL => :red,
+      LEVEL_UNKNOWN => :magenta,
+      LEVEL_ANY => :magenta
     }.freeze
 
-    MOI = 'LogActually'.freeze
+    MOI = 'LogActually'
   end
 end

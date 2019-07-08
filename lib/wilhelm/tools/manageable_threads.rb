@@ -2,8 +2,6 @@
 
 # Manageable Threads
 module ManageableThreads
-  # include DataTools
-
   def log_threads
     threads.list.each do |this_thread|
       LOGGER.warn(proc_name) { this_thread.to_s }

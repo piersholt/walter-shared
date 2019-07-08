@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Messaging
+module Yabber
   # Message constants
   module Constants
     # Message Types

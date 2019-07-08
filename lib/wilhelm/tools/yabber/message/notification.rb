@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yabber::Notification
+  # Notification is a Publisher message class for messages that have no
+  # expected outcome.
   class Notification < BaseMessage
     attr_accessor :name, :properties
 

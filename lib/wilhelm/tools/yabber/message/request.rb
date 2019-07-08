@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yabber::Request
+  # Request is a Client message class for messages that that will receive
+  # a reply.
   class Request < BaseMessage
     attr_accessor :name, :properties
 

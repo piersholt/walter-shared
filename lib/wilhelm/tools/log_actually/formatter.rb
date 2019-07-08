@@ -1,23 +1,29 @@
 # frozen_string_literal: false
 
 class LogActually
+  # LogActually::Formatter Formatter for Ruby's Logger
   module Formatter
     include ASCIIColour
 
+    FORMAT_SEVERITY = '%-5s'.freeze
+    FORMAT_PROGNAME = '%20s'.freeze
+    FORMAT_LOGGER_ID = '%12s'.freeze
+    FORMAT_TIME = '%H:%M:%S'.freeze
+
     def format_severity(severity)
-      format('%-5s', severity)
+      format(FORMAT_SEVERITY, severity)
     end
 
     def format_progname(progname)
-      format('%20s', progname)
+      format(FORMAT_PROGNAME, progname)
     end
 
     def format_logger_id
-      format('%12s', id)
+      format(FORMAT_LOGGER_ID, id)
     end
 
     def format_time(time)
-      time.strftime('%H:%M:%S')
+      time.strftime(FORMAT_TIME)
     end
 
     def default_formatter

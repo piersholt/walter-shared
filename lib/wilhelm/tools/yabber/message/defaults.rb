@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yavver Defaults
   module Defaults
     VERSION = 1
     SERIALIZED_FORMAT = :yaml

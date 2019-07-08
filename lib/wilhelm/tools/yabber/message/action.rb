@@ -1,8 +1,9 @@
-
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yabber::Action
+  # Action is a Publisher message class for messages that should result
+  # in an action via their respective handlers.
   class Action < BaseMessage
     attr_accessor :name, :properties
 

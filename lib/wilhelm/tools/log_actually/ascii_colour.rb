@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LogActually
-  # Comment
+  # LogActually::ASCIIColour
   module ASCIIColour
     include Constants
 
@@ -21,6 +21,8 @@ class LogActually
       "\e[#{LIGHT_GRAY}m"
     end
 
+    # We speak English here, not American.
+    # Jokes, GEEZUS!
     alias gray grey
 
     def green

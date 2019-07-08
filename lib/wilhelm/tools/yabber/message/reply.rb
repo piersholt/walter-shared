@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yabber::Reply
+  # Reply is a Server message class to accompany Request.
   class Reply < BaseMessage
     attr_accessor :name, :properties
 

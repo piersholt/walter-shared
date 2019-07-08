@@ -4,7 +4,7 @@ require 'logger'
 require 'forwardable'
 
 class LogActually
-  # Comment
+  # LogActually::Log
   class Log
     include Formatter
     extend Forwardable

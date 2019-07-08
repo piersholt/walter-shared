@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yabber::Serialized
+  # Serialized encapsulates the message object that is serialized and sent
+  # via ZeroMQ.
   class Serialized
     include Serialization
 

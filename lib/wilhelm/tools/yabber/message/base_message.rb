@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yabber::BaseMessage
+  # Superclass for all message classes
   class BaseMessage
     include Constants
     include Validation
@@ -19,6 +20,8 @@ module Messaging
       @type = type
       @node = node
     end
+
+    # Serialize
 
     def to_h
       { id: id,

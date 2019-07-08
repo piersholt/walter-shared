@@ -1,24 +1,19 @@
 # frozen_string_literal: true
 
-module Messaging
+module Yabber
   module API
-    # Comment
+    # API::Debug
     module Debug
       include Constants
 
-      # Publish
-      # def hello(node = :undefined)
-      #   thy_will_be_done!(DEBUG, HELLO, node)
-      # end
-
       # Request
       def ping!(callback)
-        so?(WOLFGANG, PING, {}, callback)
+        messaging_request(WOLFGANG, PING, {}, callback)
       end
 
       # Publish
       def announce(service)
-        just_lettin_ya_know!(service, ANNOUNCE)
+        messaging_notification(service, ANNOUNCE)
       end
     end
   end

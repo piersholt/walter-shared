@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LogActually
-  # Comment
+  # LogActually Forrest
   class Forrest
     include Singleton
 

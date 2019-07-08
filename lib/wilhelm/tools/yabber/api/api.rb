@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Messaging
-  # Comment
+module Yabber
+  # Yabber::API
   module API
     include LogActually::ErrorOutput
     include Constants
@@ -9,23 +9,25 @@ module Messaging
     include Manager
     include Controller
 
-    # Action
+    # Publisher Action
     def messaging_action(command_topic, command_name, properties = {})
-      action = Messaging::Action.new(node: Publisher.node, topic: command_topic, name: command_name, properties: properties)
+      action = Yabber::Action.new(node: Publisher.node, topic: command_topic, name: command_name, properties: properties)
       message_publish(action)
     end
 
-    # Notification
+    # Publisher Notification
     def messaging_notification(command_topic, command_name, properties = {})
-      action = Messaging::Notification.new(node: Publisher.node, topic: command_topic, name: command_name, properties: properties)
+      action = Yabber::Notification.new(node: Publisher.node, topic: command_topic, name: command_name, properties: properties)
       message_publish(action)
     end
 
-    # Client
+    # Client Request
     def messaging_request(command_topic, command_name, properties = {}, callback)
-      action = Messaging::Request.new(topic: command_topic, name: command_name, properties: properties)
+      action = Yabber::Request.new(topic: command_topic, name: command_name, properties: properties)
       message_request(action, callback)
     end
+
+    private
 
     # Publisher
     def message_publish(action)
@@ -35,6 +37,7 @@ module Messaging
       with_backtrace(LogActually.messaging, e)
     end
 
+    # Client
     def message_request(action, callback)
       LogActually.messaging.debug(self.class) { "Requesting: #{action}"}
       Client.instance.queue_message(action, callback)

@@ -10,9 +10,10 @@ require_relative 'log_actually/log'
 require_relative 'log_actually/forrest'
 require_relative 'log_actually/error_output'
 
-# Comment
+# LogActually
 class LogActually
   include Constants
+
   def self.is_all_around(id, stream = STDERR)
     log = Log.new(id, stream)
     Forrest.instance.add(id, log)
