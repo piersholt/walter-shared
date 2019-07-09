@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'wilhelm-tools'
-  s.version     = '1.0.0'
-  s.date        = '2019-03-15'
+  s.version     = '1.1.0'
+  s.date        = '2019-07-08'
   s.summary     = 'A loveable Logger.'
   s.description = 'A micro logging library that extends Ruby Logger.'
   s.email       = 'piersholt@gmail.com'
