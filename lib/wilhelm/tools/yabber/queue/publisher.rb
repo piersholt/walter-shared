@@ -9,6 +9,8 @@ module Yabber
     include Announce
     extend Announce
 
+    PROG = 'Publisher'
+
     def_delegators :socket, :send, :sendm
 
     DEFAULTS = {
@@ -48,19 +50,19 @@ module Yabber
 
     # @pverride
     def open_socket
-      logger.debug(self.class) { "Open Socket." }
-      logger.debug(self.class) { "Socket: #{Thread.current}" }
-      logger.debug(self.class) { "Role: #{role}" }
-      logger.debug(self.class) { "URI: #{uri}" }
+      logger.debug(PROG) { "Open Socket." }
+      logger.debug(PROG) { "Socket: #{Thread.current}" }
+      logger.debug(PROG) { "Role: #{role}" }
+      logger.debug(PROG) { "URI: #{uri}" }
       context
       worker
       context.bind(role, uri)
     end
 
     def disconnect
-      logger.debug(self.class) { '#disconnect' }
+      logger.debug(PROG) { '#disconnect' }
       result = socket.disconnect(uri)
-      logger.debug(self.class) { "socket.disconnect => #{result}" }
+      logger.debug(PROG) { "socket.disconnect => #{result}" }
       result
     end
 
