@@ -4,10 +4,8 @@ module Yabber
   # Yabber::Server
   class Server < MessagingQueue
     extend Forwardable
-    # include ThreadSafe
 
     def_delegators :socket, :recv, :send
-    # attr_reader :thread
 
     PROG = 'Server'
     DEFAULTS = {
