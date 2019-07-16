@@ -11,16 +11,6 @@ module Yabber
         def player!(callback)
           messaging_request(TARGET, PLAYER, {}, callback)
         end
-
-        # Action
-        def volume_up!
-          messaging_action(TARGET, VOLUME_UP)
-        end
-
-        # Action
-        def volume_down!
-          messaging_action(TARGET, VOLUME_DOWN)
-        end
       end
     end
   end
