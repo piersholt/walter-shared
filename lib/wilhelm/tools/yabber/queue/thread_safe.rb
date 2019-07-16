@@ -41,7 +41,7 @@ module Yabber
       end
 
       def queue
-        Mutex.new.synchronize do
+        semaphore.synchronize do
           logger.debug(self.class) { "#queue [Thread: #{Thread.current}]" }
           @queue ||= create_queue
         end
