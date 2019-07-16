@@ -3,35 +3,34 @@
 module Yabber
   class MessagingQueue
     # MessagingQueue::Announce
+    # Only used by Publisher
     module Announce
       include Yabber::Constants
       include ManageableThreads
 
+      PROG = 'Announce'.freeze
+
       def announcement(announcer)
         @node = announcer
-        # logger.debug('Announce') { "Spawn Thread" }
         @announce = Thread.new(announcer) do |announcer|
-          # logger.debug('Announce') { "Thead new" }
           begin
-            # logger.debug('Announce') { "Start" }
             3.times do
               announce(announcer)
               Kernel.sleep(1)
-              # logger.debug('Announce') { "announce #{i}" }
             end
-            # logger.debug('Announce') { 'Finish' }
           rescue StandardError => e
             with_backtrace(logger, e)
           end
-          logger.debug(self.class) { "Annoucement complete!" }
+          logger.debug(PROG) { "Annoucement complete!" }
         end
-        # logger.debug('Announce') { "Spawned Thread" }
         add_thread(@announce)
       end
 
       def announce(announcer)
+        logger.debug(PROG) { "#announce(#{announcer})" }
         n = Yabber::Notification.new(node: announcer, topic: CONTROL, name: :announcement)
-        LogActually.messaging.debug(self.class) { "Publisher Ready Send." }
+        logger.debug(PROG) { "Announce: #{n}" }
+        logger.debug(PROG) { "Publisher Announce Send." }
         Publisher.send!(n)
       end
 
