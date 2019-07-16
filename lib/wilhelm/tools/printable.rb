@@ -58,7 +58,7 @@ module Printable
   # end
 
   def columns
-    { index: 7, timestamp: 15, topic: 15, node: 15, type: 20, name: 30, properties: 100 }
+    { index: 7, timestamp: 11, type: 15, topic: 15, name: 24, properties: 196 }
   end
 
   def column_count
@@ -103,7 +103,7 @@ module Printable
   end
 
   def message_columns
-    %i[topic name properties type node]
+    %i[topic name properties type]
   end
 
   def draw_message_body(object, column_id)
