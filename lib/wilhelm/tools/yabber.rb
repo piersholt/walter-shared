@@ -4,7 +4,7 @@
 LogActually.is_all_around(:messaging)
 LogActually.messaging.i
 LogActually.is_all_around(:client)
-LogActually.client.i
+LogActually.client.d
 LogActually.is_all_around(:publisher)
 LogActually.publisher.i
 LogActually.is_all_around(:server)
@@ -33,6 +33,9 @@ require_relative 'yabber/message/serialized'
 
 require_relative 'yabber/queue/thread_safe'
 require_relative 'yabber/queue/announce'
+require_relative 'yabber/queue/messaging_context'
+require_relative 'yabber/queue/messaging_queue/constants'
+require_relative 'yabber/queue/messaging_queue/defaults'
 require_relative 'yabber/queue/messaging_queue'
 require_relative 'yabber/queue/publisher'
 require_relative 'yabber/queue/subscriber'

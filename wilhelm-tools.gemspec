@@ -32,5 +32,6 @@ Gem::Specification.new do |s|
   s.files += Dir['lib/wilhelm/tools/yabber/delegation/*.rb']
   s.files += Dir['lib/wilhelm/tools/yabber/message/serialized/*.rb']
   s.files += Dir['lib/wilhelm/tools/yabber/message/*.rb']
+  s.files += Dir['lib/wilhelm/tools/yabber/queue/messaging_queue/*.rb']
   s.files += Dir['lib/wilhelm/tools/yabber/queue/*.rb']
 end
