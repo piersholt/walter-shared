@@ -8,6 +8,7 @@ module Yabber
 
     def_delegators :socket, :send, :recv
 
+    PROG = 'Client'
     DEFAULTS = {
       role: :REQ,
       protocol: 'tcp',
@@ -30,8 +31,8 @@ module Yabber
 
     # @override ThreadSafe#queue_message
     def queue_message(request, callback)
-      logger.debug('Client#queue_message') { 'Queue Message' }
-      logger.debug('Client#queue_message') { "Queued Message: #{request}" }
+      logger.debug(PROG) { 'Queue Message' }
+      logger.debug(PROG) { "Queued Message: #{request}" }
       queue.push(request: request, callback: callback)
       true
     rescue StandardError => e
@@ -48,13 +49,13 @@ module Yabber
 
     # @override ThreadSafe#pop
     def pop(i, thread_queue)
-      logger.debug(self.class) { "Worker waiting (Next: Message ID: #{i})" }
+      logger.debug(PROG) { "Worker waiting (Next: Message ID: #{i})" }
       popped_request = thread_queue.pop
 
       req = popped_request[:request]
       popped_request[:request] = req.to_yaml
 
-      logger.debug(self.class) { "Message ID: #{i} => #{popped_request}" }
+      logger.debug(PROG) { "Message ID: #{i} => #{popped_request}" }
       popped_request
 
       # logger.debug(self.class) { "Message ID: #{i} => #{popped_messsage}" }
@@ -67,28 +68,28 @@ module Yabber
 
     # @override ThreadSafe#worker_process
     def worker_process(thread_queue)
-      logger.debug(self.class) { "#worker_process (#{Thread.current})" }
+      logger.debug(PROG) { "#worker_process (#{Thread.current})" }
       i = 1
       loop do
         string_hash = pop(i, thread_queue)
-        # logger.debug(self.class) { "string_hash => #{string_hash}" }
+        # logger.debug(PROG) { "string_hash => #{string_hash}" }
         forward_to_zeromq(string_hash[:request], &string_hash[:callback])
         i += 1
         # Kernel.sleep(3)
       end
     rescue GoHomeNow => e
-      logger.debug(self.class) { "#{e.class}: #{e.message}" }
+      logger.debug(PROG) { "#{e.class}: #{e.message}" }
       result = disconnect
-      logger.debug(self.class) { "#disconnect => #{result}" }
+      logger.debug(PROG) { "#disconnect => #{result}" }
       # with_backtrace(logger, e)
-      # logger.fatal(self.class) { 'Okay byyyeeeee!' }
+      # logger.fatal(PROG) { 'Okay byyyeeeee!' }
     end
 
     def deserialize(serialized_object)
-      logger.debug(self.class) { "#deserialize(#{serialized_object})" }
+      logger.debug(PROG) { "#deserialize(#{serialized_object})" }
       command = Yabber::Serialized.new(serialized_object).parse
-      logger.debug(self.class) { "Deserialized: #{command}" }
-      logger.debug(self.class) { "name: #{command.name} (#{command.name.class})" }
+      logger.debug(PROG) { "Deserialized: #{command}" }
+      logger.debug(PROG) { "name: #{command.name} (#{command.name.class})" }
       command
     end
 
@@ -102,27 +103,27 @@ module Yabber
     # @override ThreadSafe#forward_to_zeromq
     def forward_to_zeromq(string, &callback)
       timeout = 10
-      logger.debug(self.class) { "#forward_to_zeromq(#{string})" }
+      logger.debug(PROG) { "#forward_to_zeromq(#{string})" }
       3.times do |i|
         result = socket.send(string)
-        logger.debug(self.class) { "send(#{string}) => #{result}" }
+        logger.debug(PROG) { "send(#{string}) => #{result}" }
         raise StandardError, 'message failed to send...' unless result
-        logger.debug(self.class) { "#select([socket], nil, nil, #{timeout})" }
+        logger.debug(PROG) { "#select([socket], nil, nil, #{timeout})" }
         if select([socket], nil, nil, timeout)
           serialized_reply = socket.recv
-          logger.debug(self.class) { "serialized_reply => #{serialized_reply}" }
+          logger.debug(PROG) { "serialized_reply => #{serialized_reply}" }
           reply = deserialize(serialized_reply)
-          logger.debug(self.class) { "reply => #{reply}" }
+          logger.debug(PROG) { "reply => #{reply}" }
           yield(reply, nil)
           return true
         else
           yield(reply, :timeout)
-          logger.warn(self.class) { 'Timeout! Retry!' }
+          logger.warn(PROG) { 'Timeout! Retry!' }
           close
           socket
           timeout *= 2
         end
-        logger.warn(self.class) { 'Down?' }
+        logger.warn(PROG) { 'Down?' }
       end
 
       # raise StandardError, 'server down?'
@@ -141,8 +142,8 @@ module Yabber
       read&.each { |s| poller.register_readable(s) }
       write&.each { |s| poller.register_writable(s) }
       ready = poller.poll(timeout)
-      logger.debug(self.class) { "ready => #{ready}" }
-      logger.debug(self.class) { "ready ? true : false => #{ready ? true : false}" }
+      logger.debug(PROG) { "ready => #{ready}" }
+      logger.debug(PROG) { "ready ? true : false => #{ready ? true : false}" }
       case ready
       when 1
         [poller.readables, poller.writables, []] if ready
@@ -153,10 +154,10 @@ module Yabber
 
     # @pverride MessagingQueue#open_socket
     def open_socket
-      logger.info(self.class) { 'Open Socket.' }
-      logger.debug(self.class) { "Socket: #{Thread.current}" }
-      logger.debug(self.class) { "Role: #{role}" }
-      logger.debug(self.class) { "URI: #{uri}" }
+      logger.debug(PROG) { 'Open Socket.' }
+      logger.debug(PROG) { "Socket: #{Thread.current}" }
+      logger.debug(PROG) { "Role: #{role}" }
+      logger.debug(PROG) { "URI: #{uri}" }
       context
       # binding.pry
       queue
@@ -165,13 +166,13 @@ module Yabber
     end
 
     def connect
-      logger.debug(self.class) { '#connect' }
+      logger.debug(PROG) { '#connect' }
       result = context.connect(role, uri)
-      logger.debug(self.class) { "socket.connect => #{result}" }
+      logger.debug(PROG) { "socket.connect => #{result}" }
       result
     rescue SystemCallError
-      logger.error(self.class) { "Error when connecting to endpoint: #{uri}" }
-      logger.error(self.class) { "Can #{address} be resolved to an address?" }
+      logger.error(PROG) { "Error when connecting to endpoint: #{uri}" }
+      logger.error(PROG) { "Can #{address} be resolved to an address?" }
       raise('Yabber error!')
     end
 
