@@ -133,8 +133,8 @@ module Yabber
         topic = sanitize(topic)
         payload = sanitize(payload)
 
-        result_topic = sendm(topic)
-        result_payload = send(payload)
+        result_topic = socket.sendm(topic)
+        result_payload = socket.send(payload)
         logger.debug(topic)
         logger.debug(payload)
         raise StandardError, LOG_FAILED_SEND unless result_topic && result_payload
