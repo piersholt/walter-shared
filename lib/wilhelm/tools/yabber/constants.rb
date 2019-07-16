@@ -5,9 +5,13 @@ module Yabber
   module Constants
     # Message Types
     module Types
+      # Publisher
       NOTIFICATION = :notification
+      # Publisher
       ACTION = :action
+      # Client
       REQUEST = :request
+      # Server
       REPLY = :reply
       TYPES = %i[action notification request reply].freeze
     end
