@@ -40,12 +40,12 @@ module Yabber
       false
     end
 
+    private
+
     # @override
     def logger
       LogActually.client
     end
-
-    private
 
     # @override ThreadSafe#pop
     def pop(i, thread_queue)
@@ -57,9 +57,6 @@ module Yabber
 
       logger.debug(PROG) { "Message ID: #{i} => #{popped_request}" }
       popped_request
-
-      # logger.debug(self.class) { "Message ID: #{i} => #{popped_messsage}" }
-      # popped_messsage
     rescue GoHomeNow => e
       raise e
     rescue StandardError => e
@@ -93,13 +90,6 @@ module Yabber
       command
     end
 
-    # def send_tha_thing(i, string)
-    #   logger.debug(self.class) { "Attempt: #{i}" }
-    #   result = socket.send(string)
-    #   logger.debug(self.class) { "send(#{string}) => #{result}" }
-    #   raise StandardError, 'message failed to send...' unless result
-    # end
-
     # @override ThreadSafe#forward_to_zeromq
     def forward_to_zeromq(string, &callback)
       timeout = 10
@@ -126,14 +116,7 @@ module Yabber
         logger.warn(PROG) { 'Down?' }
       end
 
-      # raise StandardError, 'server down?'
       yield(nil, :down)
-
-      # reply = recv
-      # logger.debug(self.class) { "reply => #{reply}" }
-      # callback.call(reply)
-      # raise StandardError, 'Failed send?' unless result_topic && result_payload
-      # self.counter = counter + 1
     end
 
     # @override ZMQ.select due to what I think is odd IO.select behaviour
