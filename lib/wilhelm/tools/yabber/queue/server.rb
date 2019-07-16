@@ -9,6 +9,7 @@ module Yabber
     def_delegators :socket, :recv, :send
     # attr_reader :thread
 
+    PROG = 'Server'
     DEFAULTS = {
       role: :REP,
       protocol: 'tcp',
@@ -19,8 +20,8 @@ module Yabber
     def self.recv
       instance.recv
     rescue ZMQ::Socket => e
-      LogActually.messaging.error(self) { "#{e}" }
-      e.backtrace.each { |l| LogActually.messaging.error(l) }
+      logger.error(PROG) { e }
+      e.backtrace.each { |line| logger.error(PROG) { line } }
     end
 
     def self.params(port: PORT_WOLFGANG_CLIENT_SERVER, host: ADDRESS_LOCALHOST)
@@ -37,10 +38,10 @@ module Yabber
 
     # @pverride
     def open_socket
-      LogActually.messaging.debug(self.class) { "Open Socket." }
-      LogActually.messaging.debug(self.class) { "Socket: #{Thread.current}" }
-      LogActually.messaging.debug(self.class) { "Role: #{role}" }
-      LogActually.messaging.debug(self.class) { "URI: #{uri}" }
+      logger.debug(PROG) { "Open Socket." }
+      logger.debug(PROG) { "Socket: #{Thread.current}" }
+      logger.debug(PROG) { "Role: #{role}" }
+      logger.debug(PROG) { "URI: #{uri}" }
       # context
       # worker
       context.bind(role, uri)
