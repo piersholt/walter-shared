@@ -14,17 +14,17 @@ module Yabber
       address: '*',
       port: '5557'
     }.freeze
+    
+    def self.params(port: PORT_WOLFGANG_CLIENT_SERVER, host: ADDRESS_LOCALHOST)
+      instance.address = host
+      instance.port = port
+    end
 
     def self.recv
       instance.recv
     rescue ZMQ::Socket => e
       logger.error(PROG) { e }
       e.backtrace.each { |line| logger.error(PROG) { line } }
-    end
-
-    def self.params(port: PORT_WOLFGANG_CLIENT_SERVER, host: ADDRESS_LOCALHOST)
-      instance.address = host
-      instance.port = port
     end
 
     private

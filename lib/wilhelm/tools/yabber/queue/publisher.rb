@@ -20,6 +20,15 @@ module Yabber
       port: '5556'
     }.freeze
 
+    def self.params(port: PORT_WOLFGANG_PUB_SUB, host: ADDRESS_PI)
+      instance.address = host
+      instance.port = port
+    end
+
+    def self.disconnect
+      instance.worker.raise(GoHomeNow, 'Disconnect called!')
+    end
+
     def send!(message)
       queue_message(message)
     end
@@ -28,17 +37,8 @@ module Yabber
       instance.send!(message)
     end
 
-    def self.disconnect
-      instance.worker.raise(GoHomeNow, 'Disconnect called!')
-    end
-
     def self.destroy
       instance.destroy
-    end
-
-    def self.params(port: PORT_WOLFGANG_PUB_SUB, host: ADDRESS_PI)
-      instance.address = host
-      instance.port = port
     end
 
     private

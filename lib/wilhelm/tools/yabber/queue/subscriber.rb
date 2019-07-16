@@ -14,6 +14,12 @@ module Yabber
       port: '5556'
     }.freeze
 
+    def self.params(port: PORT_WOLFGANG_PUB_SUB, host: ADDRESS_PI)
+      instance.address = host
+      instance.port = port
+      subscribe(ALL_TOPICS)
+    end
+
     def self.recv
       topic = instance.recv
       message = instance.recv
@@ -29,12 +35,6 @@ module Yabber
       topic_human = topic_string.empty? ? 'All Topics' : topic_string
       LogActually.messaging.debug(self) { "Subscribe: #{topic_human}" }
       instance.subscribe(topic_string)
-    end
-
-    def self.params(port: PORT_WOLFGANG_PUB_SUB, host: ADDRESS_PI)
-      instance.address = host
-      instance.port = port
-      subscribe(ALL_TOPICS)
     end
 
     # @override
