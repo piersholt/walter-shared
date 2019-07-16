@@ -26,10 +26,6 @@ module Yabber
       instance.send!(message)
     end
 
-    def self.online(who_am_i)
-      instance.online(who_am_i)
-    end
-
     def self.disconnect
       instance.worker.raise(GoHomeNow, 'Disconnect called!')
     end
