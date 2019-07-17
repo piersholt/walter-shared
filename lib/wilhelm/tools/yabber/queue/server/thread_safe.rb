@@ -30,7 +30,7 @@ module Yabber
           reply = popped_reply.to_yaml
           logger.debug(PROG) { "Message ID: #{i} => #{reply}" }
           reply
-        rescue GoHomeNow => e
+        rescue MessagingQueue::Errors::GoHomeNow => e
           raise e
         rescue StandardError => e
           with_backtrace(logger, e)
@@ -45,7 +45,7 @@ module Yabber
             forward_to_zeromq(reply_yaml)
             i += 1
           end
-        rescue GoHomeNow => e
+        rescue MessagingQueue::Errors::GoHomeNow => e
           logger.debug(PROG) { "#{e.class}: #{e.message}" }
           result = disconnect
           logger.debug(PROG) { "#disconnect => #{result}" }

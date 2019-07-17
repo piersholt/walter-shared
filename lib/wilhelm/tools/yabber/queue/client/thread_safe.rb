@@ -53,7 +53,7 @@ module Yabber
 
           logger.debug(PROG) { "Message ID: #{i} => #{popped_request}" }
           popped_request
-        rescue GoHomeNow => e
+        rescue MessagingQueue::Errors::GoHomeNow => e
           raise e
         rescue StandardError => e
           with_backtrace(logger, e)
@@ -70,7 +70,7 @@ module Yabber
             i += 1
             # Kernel.sleep(3)
           end
-        rescue GoHomeNow => e
+        rescue MessagingQueue::Errors::GoHomeNow => e
           logger.debug(PROG) { "#{e.class}: #{e.message}" }
           result = disconnect
           logger.debug(PROG) { "#disconnect => #{result}" }
