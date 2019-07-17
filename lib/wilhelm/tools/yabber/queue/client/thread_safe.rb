@@ -3,13 +3,15 @@
 module Yabber
   class MessagingQueue
     module Client
+      # Client::ThreadSafe
       module ThreadSafe
         include MessagingQueue::ThreadSafe
 
         PROG = 'Client::ThreadSafe'
+        RETRIES = 3
+        TIMEOUT = 10
 
-        # @override ZMQ.select due to what I think is odd IO.select behaviour
-        def select(read = [], write = [], error = [], timeout = nil)
+        def select(read = [], write = [], error = [], timeout = TIMEOUT)
           poller = ZMQ::Poller.new
           read&.each { |s| poller.register_readable(s) }
           write&.each { |s| poller.register_writable(s) }
@@ -24,7 +26,6 @@ module Yabber
           end
         end
 
-        # @override ThreadSafe#queue_message
         def queue_message(request, callback)
           logger.debug(PROG) { 'Queue Message' }
           logger.debug(PROG) { "Queued Message: #{request}" }
@@ -43,7 +44,19 @@ module Yabber
           command
         end
 
-        # @override ThreadSafe#pop
+        def worker_loop(thread_queue)
+          i = 1
+          loop do
+            string_hash = pop(i, thread_queue)
+            forward_to_zeromq(string_hash[:request], &string_hash[:callback])
+            i += 1
+          end
+        rescue MessagingQueue::Errors::GoHomeNow => e
+          logger.debug(PROG) { "#{e.class}: #{e.message}" }
+          result = disconnect
+          logger.debug(PROG) { "#disconnect => #{result}" }
+        end
+
         def pop(i, thread_queue)
           logger.debug(PROG) { "Worker waiting (Next: Message ID: #{i})" }
           popped_request = thread_queue.pop
@@ -59,35 +72,14 @@ module Yabber
           with_backtrace(logger, e)
         end
 
-        # @override ThreadSafe#worker_process
-        def worker_process(thread_queue)
-          logger.debug(PROG) { "#worker_process (#{Thread.current})" }
-          i = 1
-          loop do
-            string_hash = pop(i, thread_queue)
-            # logger.debug(PROG) { "string_hash => #{string_hash}" }
-            forward_to_zeromq(string_hash[:request], &string_hash[:callback])
-            i += 1
-            # Kernel.sleep(3)
-          end
-        rescue MessagingQueue::Errors::GoHomeNow => e
-          logger.debug(PROG) { "#{e.class}: #{e.message}" }
-          result = disconnect
-          logger.debug(PROG) { "#disconnect => #{result}" }
-          # with_backtrace(logger, e)
-          # logger.fatal(PROG) { 'Okay byyyeeeee!' }
-        end
-
-        # @override ThreadSafe#forward_to_zeromq
         def forward_to_zeromq(string, &callback)
-          timeout = 10
           logger.debug(PROG) { "#forward_to_zeromq(#{string})" }
-          3.times do |i|
+          RETRIES.times do |i|
             result = socket.send(string)
             logger.debug(PROG) { "send(#{string}) => #{result}" }
             raise StandardError, 'message failed to send...' unless result
-            logger.debug(PROG) { "#select([socket], nil, nil, #{timeout})" }
-            if select([socket], nil, nil, timeout)
+            logger.debug(PROG) { "#select([socket], nil, nil, #{TIMEOUT})" }
+            if select([socket], nil, nil, TIMEOUT)
               serialized_reply = socket.recv
               logger.debug(PROG) { "serialized_reply => #{serialized_reply}" }
               reply = deserialize(serialized_reply)

@@ -9,16 +9,18 @@ module Yabber
     module ThreadSafe
       include ManageableThreads
 
+      PROG = 'ThreadSafe'
+
       QUEUE_SIZE = 32
       SESSION_FORMAT = '%j_%H_%M'
       LOG_CREATE_QUEUE = '#create_queue'
       LOG_CREATE_WORKER = '#create_worker'
-      LOG_WORKER_STARTING = 'Worker starting...'
-      LOG_WORKER_ENDING = 'Worker ended...!'
+      LOG_WORKER_STARTING = 'TreadSafe Worker starting...'
+      LOG_WORKER_ENDING = 'TreadSafe Worker ended...!'
       LOG_QUEUE = 'ThreadSafe#queue_message'
       LOG_QUEUE_MESSAGE = 'Queue Message'
       LOG_QUEUED_MESSAGE = 'Queued Message: '
-      LOG_PUBLISHER_WORKER = 'Publisher Worker'
+      THREAD_SAFE_WORKER = 'ThreadSafe Worker'
       LOG_FAILED_SEND = 'Failed send?'
       LOG_CHAIN_NOT_HANDLED = 'Chain did not handle!'
 
@@ -30,19 +32,8 @@ module Yabber
         @semaphore ||= Mutex.new
       end
 
-      def queue_message(message)
-        logger.debug(LOG_QUEUE) { LOG_QUEUE_MESSAGE }
-        logger.debug(LOG_QUEUE) { "#{LOG_QUEUED_MESSAGE}#{message}" }
-        queue.push(message)
-        true
-      rescue StandardError => e
-        with_backtrace(logger, e)
-        false
-      end
-
       def queue
         semaphore.synchronize do
-          logger.debug(self.class) { "#queue [Thread: #{Thread.current}]" }
           @queue ||= create_queue
         end
       end
@@ -53,30 +44,8 @@ module Yabber
         end
       end
 
-      def fuck_off?
-        @fuck_off ||= false
-      end
-
-      def fuck_off!
-        @fuck_off = true
-      end
-
-      def worker_process(thread_queue)
-        logger.debug(self.class) { "#worker_process (#{Thread.current})" }
-        i = 1
-        loop do
-          message_hash = pop(i, thread_queue)
-          forward_to_zeromq(message_hash[:topic], message_hash[:payload])
-          i += 1
-        end
-      rescue MessagingQueue::Errors::GoHomeNow => e
-        logger.debug(self.class) { "#{e.class}: #{e.message}" }
-        result = disconnect
-        logger.debug(self.class) { "#disconnect => #{result}" }
-      end
-
       def create_queue
-        logger.debug(self.class) { LOG_CREATE_QUEUE }
+        logger.debug(PROG) { "#{LOG_CREATE_QUEUE}: [Thread: #{Thread.current}}" }
         new_queue = SizedQueue.new(QUEUE_SIZE)
         create_worker(new_queue)
         new_queue
@@ -84,60 +53,28 @@ module Yabber
         with_backtrace(logger, e)
       end
 
-      def create_worker(existing_queue = nil)
-        return false if fuck_off?
-        logger.debug(self.class) { LOG_CREATE_WORKER }
-        q = existing_queue ? existing_queue : queue
-        @worker = create_worker_thread(q)
-        add_thread(@worker)
-        fuck_off!
+      def create_worker(worker_queue = nil)
+        logger.debug(PROG) { "#{LOG_CREATE_WORKER}: [Thread: #{Thread.current}}" }
+        new_worker = create_worker_thread(worker_queue || queue)
+        add_thread(new_worker)
+        new_worker
       end
 
-      def create_worker_thread(q)
-        Thread.new(q) do |thread_queue|
-          logger.debug(self.class) { "Worker: #{Thread.current}" }
-          Thread.current[:name] = LOG_PUBLISHER_WORKER
+      def create_worker_thread(worker_queue)
+        logger.debug(PROG) { "#create_worker_thread #{Thread.current}" }
+        Thread.new(worker_queue) do |thread_safe_queue|
           begin
-            logger.debug(self.class) { LOG_WORKER_STARTING }
-            worker_process(thread_queue)
-            logger.debug(self.class) { LOG_WORKER_ENDING }
+            Thread.current[:name] = THREAD_SAFE_WORKER
+            logger.debug(PROG) { LOG_WORKER_STARTING }
+            worker_loop(thread_safe_queue)
+            logger.debug(PROG) { LOG_WORKER_ENDING }
           rescue StandardError => e
-            logger.error(self.class) { e }
+            logger.error(PROG) { e }
             e.backtrace.each do |line|
-              logger.error(self.class) { line }
+              logger.error(PROG) { line }
             end
           end
         end
-      end
-
-      def pop(i, thread_queue)
-        logger.debug(self.class) { "Worker waiting (Next: Message ID: #{i})" }
-        popped_messsage = thread_queue.pop
-        popped_messsage.id = i
-        popped_messsage.session = Time.now.strftime(SESSION_FORMAT)
-        message_hash = { topic: topic(popped_messsage),
-                         payload: payload(popped_messsage) }
-
-        logger.debug(self.class) { "Message ID: #{i} => #{message_hash}" }
-        message_hash
-      rescue IfYouWantSomethingDone
-        logger.warn(self.class) { LOG_CHAIN_NOT_HANDLED }
-      rescue MessagingQueue::Errors::GoHomeNow => e
-        raise e
-      rescue StandardError => e
-        with_backtrace(logger, e)
-      end
-
-      def forward_to_zeromq(topic, payload)
-        logger.debug(self.class) { "Worker: #{Thread.current}" }
-        topic = sanitize(topic)
-        payload = sanitize(payload)
-
-        result_topic = socket.sendm(topic)
-        result_payload = socket.send(payload)
-        logger.debug(topic)
-        logger.debug(payload)
-        raise StandardError, LOG_FAILED_SEND unless result_topic && result_payload
       end
     end
   end

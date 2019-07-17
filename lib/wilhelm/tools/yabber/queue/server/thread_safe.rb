@@ -36,9 +36,9 @@ module Yabber
           with_backtrace(logger, e)
         end
 
-        # @override ThreadSafe#worker_process
-        def worker_process(thread_queue)
-          logger.debug(PROG) { "#worker_process (#{Thread.current})" }
+        # @override ThreadSafe#worker_loop
+        def worker_loop(thread_queue)
+          logger.debug(PROG) { "#worker_loop (#{Thread.current})" }
           i = 1
           loop do
             reply_yaml = pop(i, thread_queue)

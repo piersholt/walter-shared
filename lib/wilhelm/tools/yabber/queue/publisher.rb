@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'publisher/thread_safe'
+
 module Yabber
   # Yabber::Publisher
   class Publisher < MessagingQueue
     extend Forwardable
-    include ManageableThreads
-    include ThreadSafe
+    include Yabber::MessagingQueue::Publisher::ThreadSafe
     include Announce
 
     PROG = 'Publisher'
@@ -52,7 +53,7 @@ module Yabber
       logger.debug(PROG) { "Role: #{role}" }
       logger.debug(PROG) { "URI: #{uri}" }
       context
-      worker
+      queue
       context.bind(role, uri)
     end
 
@@ -70,14 +71,6 @@ module Yabber
 
     def default_port
       DEFAULTS[:port]
-    end
-
-    def topic(message)
-      message.topic
-    end
-
-    def payload(message)
-      message.to_yaml
     end
   end
 end
