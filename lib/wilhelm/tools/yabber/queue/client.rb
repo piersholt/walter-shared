@@ -25,10 +25,6 @@ module Yabber
       instance.worker.raise(GoHomeNow, 'Disconnect called!')
     end
 
-    def self.destroy
-      instance.destroy
-    end
-
     def self.queue_message(message)
       instance.queue_message(message)
     end
@@ -47,9 +43,7 @@ module Yabber
       logger.debug(PROG) { "Role: #{role}" }
       logger.debug(PROG) { "URI: #{uri}" }
       context
-      # binding.pry
       queue
-      # worker
       connect
     end
 
@@ -62,13 +56,6 @@ module Yabber
       logger.error(PROG) { "Error when connecting to endpoint: #{uri}" }
       logger.error(PROG) { "Can #{address} be resolved to an address?" }
       raise('Yabber error!')
-    end
-
-    def disconnect
-      logger.debug(self.class) { '#disconnect' }
-      result = socket.disconnect(uri)
-      logger.debug(self.class) { "socket.disconnect => #{result}" }
-      result
     end
 
     def default_role

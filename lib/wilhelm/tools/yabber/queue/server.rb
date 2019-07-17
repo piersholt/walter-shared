@@ -44,8 +44,6 @@ module Yabber
       logger.debug(PROG) { "Socket: #{Thread.current}" }
       logger.debug(PROG) { "Role: #{role}" }
       logger.debug(PROG) { "URI: #{uri}" }
-      # context
-      # worker
       context.bind(role, uri)
     end
 

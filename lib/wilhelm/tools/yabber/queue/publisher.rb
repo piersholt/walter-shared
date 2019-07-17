@@ -27,10 +27,6 @@ module Yabber
       instance.worker.raise(GoHomeNow, 'Disconnect called!')
     end
 
-    def self.destroy
-      instance.destroy
-    end
-
     def self.queue_message(message)
       instance.queue_message(message)
     end
@@ -51,13 +47,6 @@ module Yabber
       context
       worker
       context.bind(role, uri)
-    end
-
-    def disconnect
-      logger.debug(PROG) { '#disconnect' }
-      result = socket.disconnect(uri)
-      logger.debug(PROG) { "socket.disconnect => #{result}" }
-      result
     end
 
     def default_role

@@ -28,8 +28,12 @@ module Yabber
 
       def announce(announcer)
         logger.debug(PROG) { "#announce(#{announcer})" }
-        n = Yabber::Notification.new(node: announcer, topic: CONTROL, name: :announcement)
-        logger.debug(PROG) { "Announce: #{n}" }
+        notification = Yabber::Notification.new(
+          node: announcer,
+          topic: CONTROL,
+          name: :announcement
+        )
+        logger.debug(PROG) { "Announce: #{notification}" }
         logger.debug(PROG) { "Publisher Announce Send." }
         Publisher.queue_message(notification)
       end
