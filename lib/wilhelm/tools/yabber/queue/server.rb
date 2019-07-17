@@ -24,11 +24,19 @@ module Yabber
     end
 
     def self.receive_message
-      instance.socket.recv
+      instance.receive_message
     end
 
     def self.send_message(message)
-      instance.socket.send(message)
+      instance.send_message(message)
+    end
+
+    def receive_message
+      socket.recv
+    end
+
+    def send_message(message)
+      socket.send(message)
     end
 
     private

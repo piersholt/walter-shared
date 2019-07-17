@@ -21,8 +21,12 @@ module Yabber
     end
 
     def self.receive_message
-      topic = instance.socket.recv
-      message = instance.socket.recv
+      instance.receive_message
+    end
+
+    def receive_message
+      topic = socket.recv
+      message = socket.recv
       # puts "#{message}\n"
       message
     rescue ZMQ::Socket => e
