@@ -6,6 +6,8 @@ module Yabber
       module ThreadSafe
         include MessagingQueue::ThreadSafe
 
+        PROG = 'Client::ThreadSafe'
+
         # @override ZMQ.select due to what I think is odd IO.select behaviour
         def select(read = [], write = [], error = [], timeout = nil)
           poller = ZMQ::Poller.new

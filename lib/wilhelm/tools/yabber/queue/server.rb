@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'server/thread_safe'
+
 module Yabber
   # Yabber::Server
   class Server < MessagingQueue
     extend Forwardable
-    include Server::ThreadSafe
+    include Yabber::MessagingQueue::Server::ThreadSafe
 
     def_delegators :socket, :recv
 

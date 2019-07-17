@@ -10,6 +10,8 @@ module Yabber
         LOG_QUEUE_REPLY = 'Queue Reply'
         LOG_QUEUED_REPLY = 'Queued Reply: '
 
+        PROG = 'Server::ThreadSafe'
+
         def queue_reply(reply)
           logger.debug(LOG_QUEUE) { LOG_QUEUE_REPLY }
           logger.debug(LOG_QUEUE) { "#{LOG_QUEUED_REPLY}#{reply}" }
