@@ -32,7 +32,7 @@ module Yabber
     # Publisher
     def message_publish(action)
       LogActually.messaging.debug(self.class) { "Publishing: #{action}"}
-      Publisher.send!(action)
+      Publisher.queue_message(action)
     rescue StandardError => e
       with_backtrace(LogActually.messaging, e)
     end
@@ -40,7 +40,7 @@ module Yabber
     # Client
     def message_request(action, callback)
       LogActually.messaging.debug(self.class) { "Requesting: #{action}"}
-      Client.instance.queue_message(action, callback)
+      Client.queue_message(action, callback)
     end
 
     alias thy_will_be_done! messaging_action

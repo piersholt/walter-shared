@@ -8,8 +8,6 @@ module Yabber
     extend Forwardable
     include Yabber::MessagingQueue::Client::ThreadSafe
 
-    def_delegators :socket, :send, :recv
-
     PROG = 'Client'
     DEFAULTS = {
       role: :REQ,
@@ -29,6 +27,10 @@ module Yabber
 
     def self.destroy
       instance.destroy
+    end
+
+    def self.queue_message(message)
+      instance.queue_message(message)
     end
 
     private

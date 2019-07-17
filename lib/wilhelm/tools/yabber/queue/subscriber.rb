@@ -20,9 +20,9 @@ module Yabber
       subscribe(ALL_TOPICS)
     end
 
-    def self.recv
-      topic = instance.recv
-      message = instance.recv
+    def self.receive_message
+      topic = instance.socket.recv
+      message = instance.socket.recv
       # puts "#{message}\n"
       message
     rescue ZMQ::Socket => e

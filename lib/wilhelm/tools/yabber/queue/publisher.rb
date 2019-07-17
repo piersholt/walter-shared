@@ -11,8 +11,6 @@ module Yabber
 
     PROG = 'Publisher'
 
-    def_delegators :socket, :send, :sendm
-
     DEFAULTS = {
       role: :PUB,
       protocol: 'tcp',
@@ -29,16 +27,12 @@ module Yabber
       instance.worker.raise(GoHomeNow, 'Disconnect called!')
     end
 
-    def send!(message)
-      queue_message(message)
-    end
-
-    def self.send!(message)
-      instance.send!(message)
-    end
-
     def self.destroy
       instance.destroy
+    end
+
+    def self.queue_message(message)
+      instance.queue_message(message)
     end
 
     private

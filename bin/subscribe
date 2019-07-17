@@ -78,7 +78,7 @@ begin
       Yabber::Subscriber.params(options)
       i = 0
       loop do
-        message = Yabber::Subscriber.recv
+        message = Yabber::Subscriber.receive_message
         # puts Time.now.strftime("%T")
         # puts message.class
         deserialzed_object = Yabber::Serialized.new(message).parse

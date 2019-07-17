@@ -8,7 +8,7 @@ module Yabber
     extend Forwardable
     include Yabber::MessagingQueue::Server::ThreadSafe
 
-    def_delegators :socket, :recv
+    def_delegators :socket, :recv, :send
 
     PROG = 'Server'
     DEFAULTS = {
@@ -23,11 +23,12 @@ module Yabber
       instance.port = port
     end
 
-    def self.recv
-      instance.recv
-    rescue ZMQ::Socket => e
-      logger.error(PROG) { e }
-      e.backtrace.each { |line| logger.error(PROG) { line } }
+    def self.receive_message
+      instance.socket.recv
+    end
+
+    def self.send_message(message)
+      instance.socket.send(message)
     end
 
     private

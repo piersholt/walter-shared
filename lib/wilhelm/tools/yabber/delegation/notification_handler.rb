@@ -4,7 +4,7 @@ module Yabber
   # NotificationsRelay
   module NotificationsRelay
     def relay(notification)
-      Publisher.send!(notification)
+      Publisher.queue_message(notification)
     end
   end
 end
