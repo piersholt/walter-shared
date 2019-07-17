@@ -62,6 +62,9 @@ module Yabber
     # def setup
     #   3.times { |i| announce }
     # end
+    def public_socket
+      socket
+    end
 
     private
 
