@@ -7,7 +7,6 @@ module Yabber
     include ManageableThreads
     include ThreadSafe
     include Announce
-    extend Announce
 
     PROG = 'Publisher'
 
@@ -29,6 +28,14 @@ module Yabber
 
     def self.queue_message(message)
       instance.queue_message(message)
+    end
+
+    def self.announce(ident)
+      instance.announce(ident)
+    end
+
+    def self.announcement(ident)
+      instance.announcement(ident)
     end
 
     private

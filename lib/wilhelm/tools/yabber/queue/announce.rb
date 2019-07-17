@@ -10,12 +10,11 @@ module Yabber
 
       PROG = 'Announce'.freeze
 
-      def announcement(announcer)
-        @node = announcer
-        @announce = Thread.new(announcer) do |announcer|
+      def announcement(ident)
+        @announce = Thread.new(ident) do |ident|
           begin
             3.times do
-              announce(announcer)
+              announce(ident)
               Kernel.sleep(1)
             end
           rescue StandardError => e
@@ -24,26 +23,18 @@ module Yabber
           logger.debug(PROG) { "Annoucement complete!" }
         end
         add_thread(@announce)
+        true
       end
 
-      def announce(announcer)
-        logger.debug(PROG) { "#announce(#{announcer})" }
+      def announce(ident)
+        logger.debug(PROG) { "#announce(#{ident})" }
         notification = Yabber::Notification.new(
-          node: announcer,
           topic: CONTROL,
           name: :announcement
         )
         logger.debug(PROG) { "Announce: #{notification}" }
         logger.debug(PROG) { "Publisher Announce Send." }
-        Publisher.queue_message(notification)
-      end
-
-      def self.announce
-        instance.announce(announcer)
-      end
-
-      def self.announement
-        instance.announement(announcer)
+        queue_message(notification)
       end
     end
   end
