@@ -25,8 +25,8 @@ module Yabber
       instance.worker.raise(GoHomeNow, 'Disconnect called!')
     end
 
-    def self.queue_message(message)
-      instance.queue_message(message)
+    def self.queue_message(message, callback)
+      instance.queue_message(message, callback)
     end
 
     private
