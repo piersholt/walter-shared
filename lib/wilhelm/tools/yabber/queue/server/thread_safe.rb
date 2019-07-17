@@ -7,14 +7,15 @@ module Yabber
       module ThreadSafe
         include MessagingQueue::ThreadSafe
 
-        LOG_QUEUE_REPLY = 'Queue Reply'
+        MODULE_PROG = 'Server::ThreadSafe'
+
+        LOG_QUEUE_REPLY = '#queue_reply'
         LOG_QUEUED_REPLY = 'Queued Reply: '
 
         PROG = 'Server::ThreadSafe'
 
         def queue_reply(reply)
-          logger.debug(LOG_QUEUE) { LOG_QUEUE_REPLY }
-          logger.debug(LOG_QUEUE) { "#{LOG_QUEUED_REPLY}#{reply}" }
+          logger.debug(MODULE_PROG) { "#{LOG_QUEUE_REPLY}(#{reply})" }
           queue.push(reply)
           true
         rescue StandardError => e
@@ -51,7 +52,7 @@ module Yabber
         end
 
         def forward_to_zeromq(reply)
-          logger.debug(self.class) { "Worker: #{Thread.current}" }
+          logger.debug(self.class) { "#forward_to_zeromq(#{reply})" }
           result = socket.send(reply)
           raise StandardError, LOG_FAILED_SEND unless result
         end

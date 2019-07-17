@@ -11,8 +11,8 @@ module Yabber
 
       QUEUE_SIZE = 32
       SESSION_FORMAT = '%j_%H_%M'
-      LOG_CREATE_QUEUE = 'Create Queue'
-      LOG_CREATE_WORKER = 'Create Worker'
+      LOG_CREATE_QUEUE = '#create_queue'
+      LOG_CREATE_WORKER = '#create_worker'
       LOG_WORKER_STARTING = 'Worker starting...'
       LOG_WORKER_ENDING = 'Worker ended...!'
       LOG_QUEUE = 'ThreadSafe#queue_message'
