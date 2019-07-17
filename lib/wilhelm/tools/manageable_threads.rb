@@ -38,6 +38,10 @@ module ManageableThreads
     threads.add(new_thread)
   end
 
+  def thread_name(string)
+    Thread.current[:name] = string
+  end
+
   def d2h(decimal, prefix = false)
     raise ArgumentError, 'No numeric to format!' if decimal.nil?
     mask = prefix ? '%#.2x' : '%.2X'
