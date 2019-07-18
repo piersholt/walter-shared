@@ -10,6 +10,7 @@ module Yabber
         PROG = 'Client::ThreadSafe'
         RETRIES = 3
         TIMEOUT = 10
+        LOG_CALL_QUEUE_MESSAGE = '#queue_message'
 
         def select(read = [], write = [], error = [], timeout = TIMEOUT)
           poller = ZMQ::Poller.new
@@ -27,8 +28,7 @@ module Yabber
         end
 
         def queue_message(request, callback)
-          logger.debug(PROG) { 'Queue Message' }
-          logger.debug(PROG) { "Queued Message: #{request}" }
+          logger.debug(PROG) { "#{LOG_CALL_QUEUE_MESSAGE}(#{request}, #{callback})" }
           queue.push(request: request, callback: callback)
           true
         rescue StandardError => e
@@ -38,9 +38,11 @@ module Yabber
 
         def deserialize(serialized_object)
           logger.debug(PROG) { "#deserialize(#{serialized_object})" }
+          if serialized_object.nil? || serialized_object&.empty?
+            logger.warn(PROG) { 'serialized_object argument is nil or empty!' }
+          end
           command = Yabber::Serialized.new(serialized_object).parse
           logger.debug(PROG) { "Deserialized: #{command}" }
-          logger.debug(PROG) { "name: #{command.name} (#{command.name.class})" }
           command
         end
 
