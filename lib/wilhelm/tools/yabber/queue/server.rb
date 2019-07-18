@@ -6,7 +6,7 @@ module Yabber
   # Yabber::Server
   class Server < MessagingQueue
     extend Forwardable
-    include Yabber::MessagingQueue::Server::ThreadSafe
+    # include Yabber::MessagingQueue::Server::ThreadSafe
 
     def_delegators :socket, :recv, :send
 
