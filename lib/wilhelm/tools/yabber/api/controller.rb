@@ -21,6 +21,12 @@ module Yabber
       def volume_down!
         messaging_action(WOLFGANG, VOLUME_DOWN)
       end
+
+      # @note not technically within the scope of a controller
+      # Action
+      def volume_set!(level)
+        messaging_action(WOLFGANG, VOLUME_SET, level: level)
+      end
     end
   end
 end

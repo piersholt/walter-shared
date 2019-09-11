@@ -95,6 +95,7 @@ module Yabber
       SCAN_BACKWARD_STOP = :scan_backward_stop
       VOLUME_UP = :volume_up
       VOLUME_DOWN = :volume_down
+      VOLUME_SET = :volume_set
       EVERYONE = :everyone
 
       ACTIONS = {
