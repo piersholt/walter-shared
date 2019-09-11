@@ -6,12 +6,16 @@ module Yabber
     include NotificationDelegateValidation
     attr_accessor :successor
 
+    def notification_delegate
+      self.class.name
+    end
+
     def handle(notification)
       if responsible?(notification)
-        LOGGER.debug(self.class) { "I am responsible for #{notification.name}!" }
+        logger.debug(notification_delegate) { "I am responsible for #{notification.name}!" }
         take_responsibility(notification)
       else
-        LOGGER.debug(self.class) { "Not me! Forwarding: #{notification.name}" }
+        logger.debug(notification_delegate) { "Not me! Forwarding: #{notification.name}" }
         forward(notification)
       end
     end
@@ -28,13 +32,13 @@ module Yabber
 
     def responsible?(notification)
       result = notification.topic == responsibility
-      logger.debug(self.class) { "#{notification.topic} == #{responsibility} => #{result}" }
+      logger.debug(notification_delegate) { "#{notification.topic} == #{responsibility} => #{result}" }
       result
     end
 
     def not_handled(command)
-      # logger.info(self.class) { "#{command.name}: Currently not implemented." }
-      logger.warn(self.class) { "#{command.name}: Currently not implemented. (#{command.properties})" }
+      # logger.info(notification_delegate) { "#{command.name}: Currently not implemented." }
+      logger.warn(notification_delegate) { "#{command.name}: Currently not implemented. (#{command.properties})" }
     end
   end
 end
