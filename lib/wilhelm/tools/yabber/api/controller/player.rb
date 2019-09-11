@@ -7,40 +7,40 @@ module Yabber
       module Player
         include Constants
 
-        def play!
-          messaging_action(PLAYER, PLAY)
+        def play!(player_path)
+          messaging_action(PLAYER, PLAY, path: player_path)
         end
 
-        def pause!
-          messaging_action(PLAYER, PAUSE)
+        def pause!(player_path)
+          messaging_action(PLAYER, PAUSE, path: player_path)
         end
 
-        def stop!
-          messaging_action(PLAYER, STOP)
+        def stop!(player_path)
+          messaging_action(PLAYER, STOP, path: player_path)
         end
 
-        def next!
-          messaging_action(PLAYER, SEEK_NEXT)
+        def next!(player_path)
+          messaging_action(PLAYER, SEEK_NEXT, path: player_path)
         end
 
-        def previous!
-          messaging_action(PLAYER, SEEK_PREVIOUS)
+        def previous!(player_path)
+          messaging_action(PLAYER, SEEK_PREVIOUS, path: player_path)
         end
 
-        def scan_forward_start!
-          messaging_action(PLAYER, SCAN_FORWARD_START)
+        def scan_forward_start!(player_path)
+          messaging_action(PLAYER, SCAN_FORWARD_START, path: player_path)
         end
 
-        def scan_forward_stop!
-          messaging_action(PLAYER, SCAN_FORWARD_STOP)
+        def scan_forward_stop!(player_path)
+          messaging_action(PLAYER, SCAN_FORWARD_STOP, path: player_path)
         end
 
-        def scan_backward_start!
-          messaging_action(PLAYER, SCAN_BACKWARD_START)
+        def scan_backward_start!(player_path)
+          messaging_action(PLAYER, SCAN_BACKWARD_START, path: player_path)
         end
 
-        def scan_backward_stop!
-          messaging_action(PLAYER, SCAN_BACKWARD_STOP)
+        def scan_backward_stop!(player_path)
+          messaging_action(PLAYER, SCAN_BACKWARD_STOP, path: player_path)
         end
       end
     end

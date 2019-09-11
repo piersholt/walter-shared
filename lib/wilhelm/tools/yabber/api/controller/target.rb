@@ -8,8 +8,17 @@ module Yabber
         include Constants
 
         # Request
-        def player!(callback)
-          messaging_request(TARGET, PLAYER, {}, callback)
+        def targets!(callback)
+          messaging_request(TARGET, TARGET, {}, callback)
+        end
+
+        # Request
+        def player!(player_path, callback)
+          messaging_request(
+            TARGET, PLAYER,
+            { path: player_path },
+            callback
+          )
         end
       end
     end

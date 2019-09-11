@@ -4,7 +4,7 @@
 LogActually.is_all_around(:messaging)
 LogActually.messaging.i
 LogActually.is_all_around(:client)
-LogActually.client.d
+LogActually.client.i
 LogActually.is_all_around(:publisher)
 LogActually.publisher.i
 LogActually.is_all_around(:server)
